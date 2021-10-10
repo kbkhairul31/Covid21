@@ -16,7 +16,7 @@ class BuyerController extends Controller
     public function index()
     {
         $buyers = Buyer::has('transactions')->get();
-        return response()->json(['data'=> $buyers] , 200);
+        return response()->json(['data' => $buyers], 200);
     }
 
     /**
@@ -49,8 +49,7 @@ class BuyerController extends Controller
     public function show($id)
     {
         $buyer = Buyer::has('transactions')->findOrFail($id);
-        return response()->json(['data'=> $buyer] , 200);
-
+        return response()->json(['data' => $buyer], 200);
     }
 
     /**

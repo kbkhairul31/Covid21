@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Buyer extends User
 {
     use HasFactory;
-    public function transactions(){
+
+    public function transcations(){
         return $this->hasMany(Transaction::class);
     }
 }

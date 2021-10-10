@@ -24,13 +24,13 @@ class TransactionFactory extends Factory
     public function definition()
     {
         $seller = Seller::has('products')->get()->random();
-        $buyer = User::all()->expect($seller->id)->random();
+        $buyer = User::all()->except($seller->id)->random();
 
+        return [
+              'quantity' => $this->faker->numberBetween(1, 10),
+              'buyer_id' =>  $buyer->id,
+              'product_id' => $seller->products->random()->id,
 
-     return [
-        'quantity' => $this->faker->numberBetween(1,10),
-        'buyer_id' => $buyer->id,
-        'product_id' => $seller->products->random()->id,
-    ];
-     }
+        ];
+    }
 }
