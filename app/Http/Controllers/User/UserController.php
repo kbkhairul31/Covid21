@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json(['data' => $users], 200);
+        return $this->showAll([$users], 200);
     }
 
     /**
@@ -51,7 +52,7 @@ class UserController extends Controller
         $data['admin'] = User::REGULAR_USER;
         $user = User::create($data);
 
-        return response()->json(['data' => "hello"], 200);
+        return  $this->showOne($user , 200);
     }
 
     /**
@@ -63,7 +64,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -134,6 +135,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 }
