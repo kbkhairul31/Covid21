@@ -123,6 +123,7 @@ class UserController extends ApiController
          }
         $user->save();
         return $this->showOne($user);
+
     }
 
     /**
