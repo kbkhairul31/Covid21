@@ -122,7 +122,7 @@ class UserController extends ApiController
             return $this->errorResponser('you need to specify a differnet value to update' , 422);
          }
         $user->save();
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
