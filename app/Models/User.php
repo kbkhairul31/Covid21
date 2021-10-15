@@ -26,7 +26,7 @@ class User extends Authenticatable
      */
 
      protected $table = 'users';
-     
+
     protected $fillable = [
         'name',
         'email',
@@ -49,6 +49,7 @@ class User extends Authenticatable
 
     ];
 
+    public 
     /**
      * The attributes that should be cast.
      *
@@ -58,7 +59,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-  
+
     public function isVerified(){
         return $this->verified == User::VERIFIED_USER;
     }
