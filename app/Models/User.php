@@ -34,7 +34,6 @@ class User extends Authenticatable
         'verified',
         'verification_token',
         'admin',
-
     ];
 
     /**
@@ -74,7 +73,7 @@ class User extends Authenticatable
     {
         $this->attributes['email'] = strtolower($email);
     }
-    
+
     public function isVerified(){
         return $this->verified == User::VERIFIED_USER;
     }
