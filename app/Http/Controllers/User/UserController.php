@@ -16,7 +16,7 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::lazyById();
         return $this->showAll($users);
     }
 
