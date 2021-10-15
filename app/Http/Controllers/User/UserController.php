@@ -113,14 +113,14 @@ class UserController extends ApiController
         }
         if ($request->has('admin')) {
             if ($user->isVerified()) {
-                return response()->json(['error' => 'Only verified users can do', 'code' => 409], 409);
+                return  $this->errorResponser('Only verified users can do', 409);
             }
             $user->admin = $request->admin;
         }
 
         if (!$user->isDirty()) {
-            return response()->json(['error' => 'you need to specify a differnet value to update']);
-        }
+            return $this->errorResponser('you need to specify a differnet value to update' , 422);
+         }
         $user->save();
         return response()->json(['data' => $user], 200);
     }
