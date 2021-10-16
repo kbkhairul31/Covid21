@@ -6,6 +6,7 @@ use App\Http\Traits\ApiResponser;
 use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
 
@@ -53,6 +54,12 @@ class Handler extends ExceptionHandler
         if($exception instanceof ValidationException){
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
+
+        if($exception instanceof ModelNotFoundException){
+          $modelName = strtolower(class_basename($exception->getModel()));
+
+            return $this->errorResponser("Does not exists any { $modelName } with the specified identificator", 404);
+        }
         return parent::render($request, $exception);
     }
  
@@ -76,7 +83,7 @@ class Handler extends ExceptionHandler
      $errors = $e->validator->errors()->getMessages();
      return $this->errorResponser($errors , 422);
  }
- 
+
 
  }
 
