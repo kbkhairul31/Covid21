@@ -1,13 +1,19 @@
 <?php
  
 namespace App\Exceptions;
- 
+
+use App\Http\Traits\ApiResponser;
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
- 
+use Illuminate\Validation\ValidationException as ValidationValidationException;
+
 class Handler extends ExceptionHandler
 {
+
+    use ApiResponser;
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -44,6 +50,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ValidationException){
+            return $this->convertValidationExceptionToResponse($exception, $request);
+        }
         return parent::render($request, $exception);
     }
  
@@ -62,5 +71,12 @@ class Handler extends ExceptionHandler
  
         return redirect()->guest(route('login'));
     }
-}
+ protected function convertValidationExceptionToResponse(ValidationValidationException $e, $request)
+ {
+     $errors = $e->validator->errors()->getMessages();
+     return $this->errorResponser($errors , 422);
+ }
+ 
+
+ }
 
