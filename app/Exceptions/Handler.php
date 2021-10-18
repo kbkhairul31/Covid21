@@ -5,10 +5,12 @@ namespace App\Exceptions;
 use App\Http\Traits\ApiResponser;
 use Dotenv\Exception\ValidationException;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -62,7 +64,15 @@ class Handler extends ExceptionHandler
         }
 
         if($exception instanceof AuthenticationException){
-            return $this->unauthenticated($exception , $request);
+            return $this->unauthenticated($request , $exception );
+        }
+
+        if($exception instanceof AuthorizationException){
+            return $this->errorResponser($exception->getMessage() , 403);
+        }
+
+        if($exception instanceof NotFoundHttpException){
+            return $this->errorResponser('The specified URL cannot be found', 404);
         }
         
         return parent::render($request, $exception);
