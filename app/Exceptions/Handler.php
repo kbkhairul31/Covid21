@@ -7,6 +7,8 @@ use App\Http\Traits\ApiResponser;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException as ValidationValidationException;
@@ -81,6 +83,18 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof NotFoundHttpException){
             return $this->errorResponser('The specified URL cannot be found', 404);
+        }
+
+        if($exception instanceof HttpException){
+            return $this->errorResponser($exception->getMessage(), $exception->getStatusCode());
+        }
+
+        if($exception instanceof QueryException){
+            $errorCode = $exception->errorInfo[1];
+
+            if($errorCode == 1451){
+                return $this->errorResponser("Cannot remove this resource permanently.It is related with any other resource", 409);
+            }
         }
         
         return parent::render($request, $exception);
