@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class Handler extends ExceptionHandler
 {
@@ -72,6 +73,10 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof AuthorizationException){
             return $this->errorResponser($exception->getMessage() , 403);
+        }
+
+        if($exception instanceof MethodNotAllowedException){
+            return $this->errorResponser('The specified method for the requests is invalid', 405);
         }
 
         if($exception instanceof NotFoundHttpException){
