@@ -3,8 +3,7 @@
 namespace App\Exceptions;
 
 use App\Http\Traits\ApiResponser;
-use Dotenv\Exception\ValidationException;
-use Exception;
+ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,6 +13,7 @@ use Illuminate\Validation\ValidationException as ValidationValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if($exception instanceof ValidationException){
-            return $this->convertValidationExceptionToResponse($request , $exception);
+            return $this->convertValidationExceptionToResponse($exception , $request);
         }
 
         if($exception instanceof ModelNotFoundException){
