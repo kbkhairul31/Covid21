@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException as ValidationValidationException;
 
 class Handler extends ExceptionHandler
 {
-
+   
     use ApiResponser;
 
     /**
@@ -60,6 +60,11 @@ class Handler extends ExceptionHandler
 
             return $this->errorResponser("Does not exists any { $modelName } with the specified identificator", 404);
         }
+
+        if($exception instanceof AuthenticationException){
+            return $this->unauthenticated($exception , $request);
+        }
+        
         return parent::render($request, $exception);
     }
  
@@ -72,12 +77,9 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
- 
-        return redirect()->guest(route('login'));
+         return $this->errorResponser('Unathenticated' , 401);
     }
+
  protected function convertValidationExceptionToResponse(ValidationValidationException $e, $request)
  {
      $errors = $e->validator->errors()->getMessages();
