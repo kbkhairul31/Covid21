@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->bigInteger('seller_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
+
         });
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('seller_id')->references('id')->on('users');

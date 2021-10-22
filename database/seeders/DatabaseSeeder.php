@@ -42,7 +42,5 @@ class DatabaseSeeder extends Seeder
             }
         );
         Transaction::factory()->count($transactionsQuantity)->create();
-e
-
-    }
+   }
 }

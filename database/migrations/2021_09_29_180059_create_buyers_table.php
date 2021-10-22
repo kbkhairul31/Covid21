@@ -16,6 +16,8 @@ class CreateBuyersTable extends Migration
         Schema::create('buyers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
