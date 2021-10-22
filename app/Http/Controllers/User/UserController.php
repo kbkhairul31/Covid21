@@ -110,6 +110,7 @@ class UserController extends ApiController
 
         if ($request->has('password')) {
             $user->password = bcrypt($request->password);
+            
         }
         if ($request->has('admin')) {
             if ($user->isVerified()) {
