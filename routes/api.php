@@ -8,6 +8,7 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Transaction\TransactionCategoryController;
 use App\Http\Controllers\Transaction\TransactionController;
+use App\Http\Controllers\Transaction\TransactionSellerController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::resource('seller', SellerController::class)->only(['index','show']);
 
 Route::resource('transactions', TransactionController::class)->only(['index','show']);
 Route::resource('transactions.categories', TransactionCategoryController::class)->only(['index','show']);
+Route::resource('transactions.sellers', TransactionSellerController::class)->only(['index','show']);
 
 
 Route::resource('users', UserController::class)->except(['create', 'edit']);
