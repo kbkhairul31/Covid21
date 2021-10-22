@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Buyer;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
 
-class BuyerTransactionController extends Controller
+class BuyerTransactionController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class BuyerTransactionController extends Controller
 
        return $this->showAll($transaction);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
