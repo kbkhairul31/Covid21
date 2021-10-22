@@ -9,20 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Buyer extends User
 {
-    use HasFactory;
-
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
 
         static::addGlobalScope(new BuyerScopes);
-
     }
 
-    public function transcations(){
+    public function transcations()
+    {
         return $this->hasMany(Transaction::class);
     }
-
-}
+ }

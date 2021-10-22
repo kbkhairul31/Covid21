@@ -17,7 +17,6 @@ class CreateBuyersTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
