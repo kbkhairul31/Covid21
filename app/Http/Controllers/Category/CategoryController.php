@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Category;
-
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-
 class CategoryController extends ApiController
 {
     /**
@@ -19,7 +16,6 @@ class CategoryController extends ApiController
       $category = Category::lazyById();
       return $this->showAll($category);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +25,6 @@ class CategoryController extends ApiController
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,12 +38,9 @@ class CategoryController extends ApiController
             'description' => 'required',
          ];
         $this->validate($request, $rules);
-
         $newCategory = Category::create($request->all());
-
         return $this->showOne($newCategory , 201);
     }
-
     /**
      * Display the specified resource.
      *
@@ -59,7 +51,6 @@ class CategoryController extends ApiController
     {
        return $this->showOne($category);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,7 +61,6 @@ class CategoryController extends ApiController
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -84,16 +74,12 @@ class CategoryController extends ApiController
           'name',
           'description',
       ]));
-
       if($category->isClean()){
           return $this->errorResponser('You need to specify any diffrent value to update', 422);
       }
-
       $category->save();
-
       return $this->showOne($category);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -103,8 +89,6 @@ class CategoryController extends ApiController
     public function destroy(Category $category)
     {
          $category->delete();
-
          return $this->showOne($category);
-
     }
 }
