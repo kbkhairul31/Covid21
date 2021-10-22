@@ -15,7 +15,9 @@ class BuyerProductController extends Controller
      */
     public function index(Buyer $buyer)
     {
-        $products = $buyer->transcations->product;
+        // $products = $buyer->transcations->product;
+        $products = $buyer->transcations()->with('product')->get();
+
 
         return $this->showAll($products);
     }
