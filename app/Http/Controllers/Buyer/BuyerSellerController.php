@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Buyer;
-use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class BuyerController extends ApiController
+class BuyerSellerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Buyer $buyer)
     {
+        $seller = $buyer->transactions()->with('product.seller')
+             ->get()
+             ->pluck('product.seller')
+             ->unique('id')
+             ->values();
 
-        // $buyers = Transaction::all()->buyer();
-        $buyers = Buyer::has('transactions')->get();
-        return $this->showAll($buyers);
     }
 
     /**
@@ -31,7 +30,7 @@ class BuyerController extends ApiController
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -48,25 +47,21 @@ class BuyerController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
     public function show(Buyer $buyer)
     {
-        // $buyer = Buyer::has('transactions')->findOrFail($buyer);
-
-        //    $buyer = Buyer::transactions()->get();
-        return  $this->showOne($buyer);
+        //
     }
 
     /**
-     *
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Buyer $buyer)
     {
         //
     }
@@ -75,7 +70,7 @@ class BuyerController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Buyer $buyer)
@@ -86,12 +81,11 @@ class BuyerController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Buyer $buyer)
     {
-        $buyer->delete();
-        return $this->showOne($buyer);
+        //
     }
 }
