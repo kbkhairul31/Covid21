@@ -6,7 +6,11 @@ use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Buyer\BuyerProductController;
 use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\Controllers\Buyer\BuyerTransactionController;
+use App\Http\Controllers\Category\CategoryBuyerController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Category\CategoryProductController;
+use App\Http\Controllers\Category\CategorySellerController;
+use App\Http\Controllers\Category\CategoryTransactionController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Transaction\TransactionCategoryController;
@@ -26,6 +30,10 @@ Route::resource('buyers.sellers', BuyerSellerController::class)->only(['index'])
 
 
 Route::resource('category', CategoryController::class)->except(['create','edit']);
+Route::resource('category.products', CategoryProductController::class)->except(['create','edit']);
+Route::resource('category.sellers', CategorySellerController::class)->except(['create','edit']);
+Route::resource('category.transactions', CategoryTransactionController::class)->except(['create','edit']);
+Route::resource('category.buyers', CategoryBuyerController::class)->except(['create','edit']);
 
 Route::resource('product', ProductController::class)->only(['index','show']);
 
