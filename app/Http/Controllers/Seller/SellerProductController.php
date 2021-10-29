@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -39,7 +40,7 @@ class SellerProductController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , User $seller)
+    public function store(Request $request, User $seller)
     {
         $rules = [
             'name' => 'required',
@@ -53,7 +54,7 @@ class SellerProductController extends ApiController
         $data = $request->all();
 
         $data['status'] = Product::UNAVAILABLE_PRODUCT;
-        $data['image'] = '1.jpg';
+        $data['image'] = $request->image->store('path');
         $data['seller_id'] = $seller->id;
 
 
@@ -94,14 +95,14 @@ class SellerProductController extends ApiController
     public function update(Request $request, Seller $seller, Product $product)
     {
         $rules = [
-              'quantity' => 'integer|min:1',
-              'status' => 'in:'.Product::AVAILABLE_PRODUCT . ',' . Product::UNAVAILABLE_PRODUCT,
+            'quantity' => 'integer|min:1',
+            'status' => 'in:' . Product::AVAILABLE_PRODUCT . ',' . Product::UNAVAILABLE_PRODUCT,
             'image' => 'image'
         ];
 
         $this->validate($request, $rules);
 
-        $this->chackSeller($seller , $product);
+        $this->chackSeller($seller, $product);
 
         $product->fill($request->intersect([
             'name',
@@ -109,22 +110,26 @@ class SellerProductController extends ApiController
             'quantity'
         ]));
 
-        if($request->has('status')){
+        if ($request->has('status')) {
             $product->status = $request->status;
 
-            if($product->isAvailable() && $product->categories()->count() == 0){
+            if ($product->isAvailable() && $product->categories()->count() == 0) {
                 return $this->errorResponser("An active product must have at least one category ", 409);
             }
         }
 
-        if($product->isClean()){
+        if ($request->hasFile('image')) {
+            Storage::delete($product->image);
+
+            $product->image = $request->image->store('');
+        }
+        if ($product->isClean()) {
             return $this->errorResponser('You need to specify a different value to update', 422);
         }
 
         $product->save();
 
         return $this->showOne($product);
-
     }
 
     /**
@@ -133,18 +138,22 @@ class SellerProductController extends ApiController
      * @param  \App\Models\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Seller $seller, Product $product){
-        $this->checkSeller($seller , $product);
+    public function destroy(Seller $seller, Product $product)
+    {
+        $this->checkSeller($seller, $product);
 
         $product->delete();
+
+
+        Storage::delete($product->image);
+
         return $this->showOne($product);
     }
-    
+
     public function checkSeller(Seller $seller, Product $product)
     {
-        if($seller->id != $product->seller_id){
-            throw new HttpException(422,"The specified seller is not  the actual seller of the product  ");
+        if ($seller->id != $product->seller_id) {
+            throw new HttpException(422, "The specified seller is not  the actual seller of the product  ");
         }
-
     }
 }
