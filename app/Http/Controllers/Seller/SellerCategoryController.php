@@ -1,32 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
-use App\Models\Category;
+ use App\Models\Seller;
 use Illuminate\Http\Request;
 
-class CategoryBuyerController extends ApiController
+class SellerCategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+    public function index(Seller $seller)
     {
-        $buyers = $category->products()
-                  ->whereHas('transactions')
-                  ->with('transactions.buyer')
-                  ->get()
-                  ->pluck('transaction')
-                  ->collapse()
-                  ->pluck('buyer')
-                  ->unique('id')
-                  ->values();
+   $categories = $seller->products()
+                ->whereHas('categories')
+                ->with('categories')
+                ->get()
+                ->pluck('categories')
+                ->collapse()
+                ->unique('id')
+                ->values();
 
-        return $this->showAll($buyers);
+        return $this->showAll($categories);
+
     }
 
     /**
@@ -47,16 +46,16 @@ class CategoryBuyerController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Seller $seller)
     {
         //
     }
@@ -64,10 +63,10 @@ class CategoryBuyerController extends ApiController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Seller $seller)
     {
         //
     }
@@ -76,10 +75,10 @@ class CategoryBuyerController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Seller $seller)
     {
         //
     }
@@ -87,10 +86,10 @@ class CategoryBuyerController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Seller $seller)
     {
         //
     }
