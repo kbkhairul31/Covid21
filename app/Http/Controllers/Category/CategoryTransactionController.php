@@ -21,6 +21,12 @@ class CategoryTransactionController extends Controller
                          ->get()
                          ->pluck('transactions')
                          ->collapse();
+        // $transactions = $category->products()
+        //                  ->whereHas('transactions')
+        //                  ->with('transactions')
+        //                  ->get()
+        //                  ->pluck('transactions')
+        //                  ->collapse();
            return $this->showAll($transactions);
     }
 

@@ -13,7 +13,7 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-      $category = Category::lazyById();
+      $category = Category::get();
       return $this->showAll($category);
     }
     /**

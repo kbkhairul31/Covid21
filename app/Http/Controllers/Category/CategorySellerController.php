@@ -16,11 +16,16 @@ class CategorySellerController extends ApiController
     public function index(Category $category)
     {
         $sellers = $category->products()
-                   ->with('seller')
-                   ->get()
-                   ->pluck()
-                   ->unique()
+        
+                    ->get()
+                    ->unique()
                    ->values();
+        // $sellers = $category->products()
+        //            ->with('seller')
+        //            ->get()
+        //            ->pluck()
+        //            ->unique()
+        //            ->values();
 
       return $this->showAll($sellers);
     }

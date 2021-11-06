@@ -19,10 +19,11 @@ class BuyerProductController extends ApiController
         // $products = $buyer->transcations->product;
         $products = $buyer->transactions()->with('product')
         ->get()
-        ->pluck('product');
+        ->pluck('product')
+        ;
 
 
-
+    //    return response()->json($products, 200);
         return $this->showAll($products);
     }
 

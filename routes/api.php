@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buyer\BuyerCategoryController;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Buyer\BuyerController;
@@ -35,6 +36,7 @@ Route::resource('buyers', BuyerController::class)->only(['index','show']);
 Route::resource('buyers.products', BuyerProductController::class)->only(['index']);
 Route::resource('buyers.transactions', BuyerTransactionController::class)->only(['index']);
 Route::resource('buyers.sellers', BuyerSellerController::class)->only(['index']);
+Route::resource('buyers.category', BuyerCategoryController::class)->only(['index']);
 
 
 Route::resource('category', CategoryController::class)->except(['create','edit']);
