@@ -1,5 +1,7 @@
 <?php
 
+use Spatie\Fractal\FractalServiceProvider;
+
 return [
 
     /*
@@ -162,9 +164,13 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
+
+         FractalServiceProvider::class,
+        //  Spatice\Spatie\Fractal\FractalServiceProvider::class,
 
         /*
          * Application Service Providers...
