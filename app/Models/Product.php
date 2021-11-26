@@ -16,7 +16,7 @@ class Product extends Model
     const UNAVAILABLE_PRODUCT = 'unavailable';
 
 
-         public $transformer = ProductTransformer::class;
+    public $transformer = ProductTransformer::class;
 
     protected $dates = ['deleted_at'];
     protected $fillable = [
@@ -32,19 +32,23 @@ class Product extends Model
         'pivot'
     ];
 
-    public function isAvailable(){
+    public function isAvailable()
+    {
         return $this->status == Product::AVAILABLE_PRODUCT;
     }
 
-    public function seller(){
+    public function seller()
+    {
         return $this->belognsTo(Seller::class);
     }
 
-    public function transcations(){
+    public function transcations()
+    {
         return $this->hasMany(Transaction::class);
     }
 
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(Category::class);
     }
 }
