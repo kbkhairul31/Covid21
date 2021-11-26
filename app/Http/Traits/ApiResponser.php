@@ -31,7 +31,7 @@ trait ApiResponser
         $transformer = $collection->first()->transformer;
 
         $collection = $this->sortData($collection , $code);
-        
+
 
         $collection = $this->transformData($collection, $transformer);
 
@@ -46,6 +46,14 @@ trait ApiResponser
 
         return $this->successResponser(  $instance, $code);
     }
+    // protected function showAll(Collection $collection, $code = 200)
+    // {
+    //     return $this->successResponser($collection, $code);
+    // }
+    // protected function showOne(Model $instance, $code = 200)
+    // {
+    //     return $this->successResponser(['data' => $instance], $code);
+    // }
 
     protected function transformData($data, $transformer)
     {
